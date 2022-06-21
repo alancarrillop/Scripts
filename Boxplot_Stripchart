@@ -1,0 +1,28 @@
+# Import library:
+# install.packages("scales")
+library(scales)
+
+# Get data:
+Data_List = list(rnorm(n = 100, mean = 4, sd = 1), rnorm(n = 150, mean = 3, sd = 0.8), rnorm(n = 180, mean = 6, sd = 1.2))
+Colors_Plot = c("dodgerblue2", "darkorange2", "forestgreen")
+
+YMin = floor(min(sapply(Data_List, min)))
+YMax = ceiling(max(sapply(Data_List, max)))
+
+YTicks = seq(YMin, YMax, (YMax - YMin) / 9)
+
+# Do the plotting:
+par(mar = c(2, 3, 1, 1))
+
+Boxplot = boxplot(Data_List, ylim = c(YMin, YMax), horizontal = F, frame = F, xaxt = "n", yaxt = "n", outcol = "white")
+
+boxplot(Data_List, ylim = c(YMin, YMax), horizontal = F, col = "white", frame = F, xaxt = "n", yaxt = "n", outline = F, pch = 1,
+        medlwd = 2, whisklwd = 2, staplelwd = 2, boxlwd = 2,
+        whisklty = 1, outcol = "white", add = T)
+
+stripchart(Data_List, vertical = T, pch = 19, method = "jitter", jitter = 0.3, col = alpha(Colors_Plot, 0.3), add = T, cex = 1)
+
+text(x = c(1, 2, 3), y = 0.5, labels = c("Group 1", "Group 2", "Group 3"), xpd = T, srt = 0.5, cex = 1)
+
+axis(side = 2, at = YTicks, lwd = 2, labels = NA)
+text(x = 0, y = YTicks, labels = as.character(YTicks), xpd = T, srt = 0, cex = 1, adj = 1)
